@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="navbar.css" />
+    <link rel="stylesheet" href="checkout.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div>
+        <img
+          src="https://static-assets-web.flixcart.com/batman-returns/batman-returns/p/images/fkheaderlogo_exploreplus-44005d.svg"
+          alt=""
+        />
+      </div>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="product.html">Product</a></li>
+        <li><a href="cart.html">Cart</a></li>
+      </ul>
+    </nav>
+    <div class="checkout-container">
+      <h1>Checkout</h1>
+      <div class="checkout-wrapper">
+        <!--Form-->
+        <div class="shipping-info">
+          <h2>Shipping Details</h2>
+          <form id="checkform">
+            <input type="text" placeholder="Full name" required />
+            <input type="email" placeholder="Email Address" required />
+            <input type="text" placeholder="Phone number" required />
+            <input type="text" placeholder="Address Line 1" required />
+            <input type="text" placeholder=" Address Line2" required />
+            <input type="text" placeholder=" City" required />
+            <input type="text" placeholder=" State" required />
+            <input type="text" placeholder=" postal Code" required />
+          </form>
+        </div>
+        <!--Order summary-->
+        <div class="order-summary">
+          <h2>Order Summary</h2>
+          <div id="summaryItems"></div>
+          <div id="summaryTotal" class="summary-total"></div>
+          <button onclick="placeOrder()">Place Order</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      function loadSummary() {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const summaryItems = document.getElementById("summaryItems");
+        const summaryTotal = document.getElementById("summaryTotal");
+
+        if (cart.length == 0) {
+          summaryItems.innerHTML = "<P>Your cart is empty</p>";
+          summaryTotal.innerHTML = "";
+          return;
+        }
+        let total = 0;
+        summaryItems.innerHTML = cart
+          .map((item) => {
+            total += item.price;
+            return `
+                  <div class="summary-item">
+                    <span>${item.name}</span>
+                    <span>${item.price}</span>
+                  </div>
+                  `;
+          })
+          .join("");
+        summaryTotal.innerHTML = `<strong>Total: Rs ${total}</strong> `;
+      }
+      function placeOrder() {
+        alert("Order Placed Successfully! Thank for shopping with us");
+        localStorage.removeItem("cart");
+        window.location.href = "index.html";
+      }
+      loadSummary();
+    </script>
+  </body>
+</html>
